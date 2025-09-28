@@ -1,0 +1,17 @@
+# Rust build output
+/target/
+
+# Nix build output
+/result
+
+# Python virtual environment
+/venv/
+
+# Environment variables
+/.env
+
+# Cache directories
+/.cache/
+
+# Music library
+/music/
