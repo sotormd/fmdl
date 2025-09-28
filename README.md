@@ -41,9 +41,7 @@ This app is packaged using [Nix](https://nixos.org/download/).
 
 Run with additional arguments.
 
-    ```
-    $ nix run . -- [ARGS]
-    ```
+`$ nix run . -- [ARGS]`
 
 Arguments:
 
