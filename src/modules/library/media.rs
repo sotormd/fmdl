@@ -12,9 +12,7 @@ pub fn apply_metadata(path: &Path, track: &Track) -> Result<(), String> {
 
     // Basic fields
     tag.set_title(&track.name);
-    println!("[METADATA] Added title for {}", &track.name);
     tag.set_artist(&track.artist);
-    println!("[METADATA] Added artist for {}", &track.name);
 
     // Write tags back to file
     tag.write_to_path(path, Version::Id3v24)

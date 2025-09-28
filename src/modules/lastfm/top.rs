@@ -53,8 +53,6 @@ pub fn get_top_tracks(username: &str, api_key: &str) -> Vec<Track> {
             artist: t.artist.name,
         }).collect();
 
-        println!("[LASTFM] Fetched {} tracks in time period {}", tracks.len(), period);
-
         all_tracks.extend(tracks);
     }
 

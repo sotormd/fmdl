@@ -6,13 +6,13 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum DlError {
-    #[error("failed to execute yt-dlp: {0}")]
+    #[error("[YT-DLP] failed to execute yt-dlp: {0}")]
     CommandFailed(#[from] std::io::Error),
 
-    #[error("yt-dlp exited with status {0}")]
+    #[error("[YT-DLP] yt-dlp exited with status {0}")]
     ExitFailure(std::process::ExitStatus),
 
-    #[error("invalid output path")]
+    #[error("[YT-DLP] invalid output path")]
     InvalidOutputPath,
 }
 

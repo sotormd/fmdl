@@ -42,7 +42,5 @@ pub fn get_diff(library_dir: &Path, tracks: Vec<Track>) -> Diff {
         // that are not contained in keep
         .collect();
 
-    println!("[LIBRARY] Built diff");
-
     Diff { add, remove }
 }

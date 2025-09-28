@@ -50,6 +50,7 @@
         '';
       };
     in {
+
       devShells.x86_64-linux.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           cargo
@@ -65,6 +66,7 @@
         env.RUST_SRC_PATH =
           "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
       };
+
       packages.x86_64-linux.default = naerskLib.buildPackage {
         src = ./.;
         buildInputs = [ pkgs.gcc pkgs.openssl pkgs.ffmpeg latestYtDlp ];
@@ -73,6 +75,11 @@
                     wrapProgram $out/bin/fmdl \
           	    --prefix PATH : "${latestYtDlp}/bin:${pkgs.ffmpeg}/bin"
         '';
+      };
+
+      apps.x86_64-linux.default = {
+        type = "app";
+        program = "${self.packages.x86_64-linux.default}/bin/fmdl";
       };
     };
 }
