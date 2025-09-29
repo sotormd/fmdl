@@ -67,10 +67,14 @@ Path to save tracks. Default: `./music`.
 
 `-c / --cache-path <path>`
 
-Path to download tracks to. Default: `./.cache`.
+Path to download tracks. Default: `./.cache`.
 
-# TODO
+# Features
 
-- More metadata beyond just title and artist (album, cover art, release date, track number, ...).
-- Parallel downloads.
+- [x] Sync local library with LastFM top tracks
+- [x] Show diff between local library and top tracks
+- [x] Basic metadata for saved `.mp3` files
+- [x] Basic cli with `clap`
+- [ ] Rich metadata (album, cover art, release date, track number, ...)
+- [ ] Parallel downloads
 
