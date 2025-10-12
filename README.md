@@ -12,7 +12,7 @@ This app is packaged using [Nix](https://nixos.org/download/).
 
 1. Clone this repository.
 
-    ```
+    ```console
     $ git clone https://github.com/sotormd/fmdl
     $ cd fmdl
     ```
@@ -22,7 +22,7 @@ This app is packaged using [Nix](https://nixos.org/download/).
     Create a LastFM API account [here](https://www.last.fm/api/account/create) and create an API key.
 
     Then, create a `.env` file.
-    ```
+    ```console
     $ vi .env
     ```
 
@@ -33,7 +33,7 @@ This app is packaged using [Nix](https://nixos.org/download/).
     ```
 
 3. Run the app to sync your library.
-    ```
+    ```console
     $ nix run .
     ```
 
