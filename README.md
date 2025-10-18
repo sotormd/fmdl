@@ -6,42 +6,22 @@ Automatically downloads new tracks, updates metadata, and keeps your library in 
 
 # Requirements
 
-This app is packaged using [Nix](https://nixos.org/download/).
+This app is packaged using [Nix](https://nixos.org/download/) for `x86_64-linux` targets.
+
+A LastFM API key is required. Create a LastFM API account [here](https://www.last.fm/api/account/create) and get an API key.
 
 # Usage
 
-1. Clone this repository.
-
-    ```console
-    $ git clone https://github.com/sotormd/fmdl
-    $ cd fmdl
-    ```
-
-2. Set up your LastFM API keys.
-
-    Create a LastFM API account [here](https://www.last.fm/api/account/create) and create an API key.
-
-    Then, create a `.env` file.
-    ```console
-    $ vi .env
-    ```
-
-    Example `.env` file.
-    ```
-    LASTFM_API_KEY=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    LASTFM_USERNAME=my_username
-    ```
-
-3. Run the app to sync your library.
-    ```console
-    $ nix run .
-    ```
+```console
+$ nix run github:sotormd/fmdl
+```
+> Make sure you set the environment variables `LASTFM_API_KEY` and `LASTFM_USERNAME` either via the console or via a `.env` file in the current working directory.
 
 # CLI Usage
 
 Run with additional arguments.
 
-`$ nix run . -- [ARGS]`
+`$ nix run github:sotormd/fmdl -- [ARGS]`
 
 Arguments:
 
