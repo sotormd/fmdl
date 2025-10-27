@@ -12,13 +12,13 @@
       naerskLib = pkgs.callPackage naersk { };
       latestYtDlp = pkgs.python3Packages.buildPythonApplication rec {
         pname = "yt-dlp";
-        version = "2025.09.26";
+        version = "2025.10.22";
 
         src = pkgs.fetchFromGitHub {
           owner = "yt-dlp";
           repo = "yt-dlp";
           tag = version;
-          hash = "sha256-/uzs87Vw+aDNfIJVLOx3C8RyZvWLqjggmnjrOvUX1Eg=";
+          hash = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
         };
 
         pyproject = true;
