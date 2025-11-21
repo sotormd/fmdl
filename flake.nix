@@ -6,80 +6,141 @@
     naersk.url = "github:nix-community/naersk";
   };
 
-  outputs = { self, nixpkgs, naersk, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      naersk,
+      ...
+    }:
     let
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      naerskLib = pkgs.callPackage naersk { };
-      latestYtDlp = pkgs.python3Packages.buildPythonApplication rec {
-        pname = "yt-dlp";
-        version = "2025.10.22";
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-        src = pkgs.fetchFromGitHub {
-          owner = "yt-dlp";
-          repo = "yt-dlp";
-          tag = version;
-          hash = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
+      ytDlpVersion = "2025.10.22";
+      ytDlpHash = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
+
+      # function to build yt-dlp for a given pkgs
+      mkYtDlp =
+        pkgs:
+        pkgs.python3Packages.buildPythonApplication rec {
+          pname = "yt-dlp";
+          version = ytDlpVersion;
+
+          src = pkgs.fetchFromGitHub {
+            owner = "yt-dlp";
+            repo = "yt-dlp";
+            tag = version;
+            hash = ytDlpHash;
+          };
+
+          pyproject = true;
+          buildSystem = [ pkgs.python3Packages.hatchling ];
+
+          nativeBuildInputs = with pkgs; [
+            installShellFiles
+            pandoc
+          ];
+
+          propagatedBuildInputs = with pkgs.python3Packages; [
+            brotli
+            certifi
+            mutagen
+            pycryptodomex
+            requests
+            urllib3
+            websockets
+            hatchling
+          ];
+
+          doCheck = false;
+
+          postBuild = ''
+            python devscripts/prepare_manpage.py yt-dlp.1.temp.md
+            pandoc -s -f markdown-smart -t man yt-dlp.1.temp.md -o yt-dlp.1
+            rm yt-dlp.1.temp.md
+          '';
+
+          postInstall = ''
+            install -Dm644 README.md -t $out/share/doc/yt_dlp
+          '';
         };
 
-        pyproject = true;
-        buildSystem = [ pkgs.python3Packages.hatchling ];
+      # generic per-system builder
+      forSystem =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          naerskLib = pkgs.callPackage naersk { };
+          ytDlp = mkYtDlp pkgs;
+        in
+        {
+          devShells.default = pkgs.mkShell {
+            buildInputs =
+              with pkgs;
+              [
+                cargo
+                rustc
+                rustfmt
+                rust-analyzer
+                gcc
+                openssl
+                ffmpeg
+              ]
+              ++ [ ytDlp ];
+            nativeBuildInputs = [ pkgs.pkg-config ];
+            env.RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+          };
 
-        nativeBuildInputs = [ pkgs.installShellFiles pkgs.pandoc ];
+          packages.default = naerskLib.buildPackage {
+            src = ./.;
+            buildInputs =
+              with pkgs;
+              [
+                gcc
+                openssl
+                ffmpeg
+              ]
+              ++ [ ytDlp ];
+            nativeBuildInputs = [
+              pkgs.pkg-config
+              pkgs.makeWrapper
+            ];
+            postInstall = ''
+              wrapProgram $out/bin/fmdl \
+                --prefix PATH : "${ytDlp}/bin:${pkgs.ffmpeg}/bin"
+            '';
+          };
 
-        propagatedBuildInputs = with pkgs.python3Packages; [
-          brotli
-          certifi
-          mutagen
-          pycryptodomex
-          requests
-          urllib3
-          websockets
-          hatchling
-        ];
+          apps.default = {
+            type = "app";
+            program = "${self.packages.${system}.default}/bin/fmdl";
+          };
+        };
 
-        doCheck = false;
+    in
+    {
+      devShells = builtins.listToAttrs (
+        map (system: {
+          name = system;
+          value = (forSystem system).devShells;
+        }) systems
+      );
 
-        postBuild = ''
-          python devscripts/prepare_manpage.py yt-dlp.1.temp.md
-          pandoc -s -f markdown-smart -t man yt-dlp.1.temp.md -o yt-dlp.1
-          rm yt-dlp.1.temp.md
-        '';
+      packages = builtins.listToAttrs (
+        map (system: {
+          name = system;
+          value = (forSystem system).packages;
+        }) systems
+      );
 
-        postInstall = ''
-          install -Dm644 README.md -t $out/share/doc/yt_dlp
-        '';
-      };
-    in {
-
-      devShells.x86_64-linux.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          cargo
-          rustc
-          rustfmt
-          rust-analyzer
-          gcc
-          openssl
-          ffmpeg
-          latestYtDlp
-        ];
-        nativeBuildInputs = [ pkgs.pkg-config ];
-        env.RUST_SRC_PATH =
-          "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
-      };
-
-      packages.x86_64-linux.default = naerskLib.buildPackage {
-        src = ./.;
-        buildInputs = [ pkgs.gcc pkgs.openssl pkgs.ffmpeg latestYtDlp ];
-        nativeBuildInputs = [ pkgs.pkg-config pkgs.makeWrapper ];
-        postInstall = ''
-                    wrapProgram $out/bin/fmdl \
-          	    --prefix PATH : "${latestYtDlp}/bin:${pkgs.ffmpeg}/bin"
-        '';
-      };
-
-      apps.x86_64-linux.default = {
-        type = "app";
-        program = "${self.packages.x86_64-linux.default}/bin/fmdl";
-      };
+      apps = builtins.listToAttrs (
+        map (system: {
+          name = system;
+          value = (forSystem system).apps;
+        }) systems
+      );
     };
 }

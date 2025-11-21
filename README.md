@@ -2,20 +2,26 @@
 
 Manage a local library based on LastFM top tracks.
 
-Automatically downloads new tracks, updates metadata, and keeps your library in sync.
+Automatically downloads new tracks, updates metadata, and keeps your library in
+sync.
 
 # Requirements
 
-This app is packaged using [Nix](https://nixos.org/download/) for `x86_64-linux` targets.
+This app is packaged using [Nix](https://nixos.org/download/) for `x86_64-linux`
+and `aarch64-linux` targets.
 
-A LastFM API key is required. Create a LastFM API account [here](https://www.last.fm/api/account/create) and get an API key.
+A LastFM API key is required. Create a LastFM API account
+[here](https://www.last.fm/api/account/create) and get an API key.
 
 # Usage
 
 ```console
 $ nix run github:sotormd/fmdl
 ```
-> Make sure you set the environment variables `LASTFM_API_KEY` and `LASTFM_USERNAME` either via the console or via a `.env` file in the current working directory.
+
+> Make sure you set the environment variables `LASTFM_API_KEY` and
+> `LASTFM_USERNAME` either via the console or via a `.env` file in the current
+> working directory.
 
 # CLI Usage
 
@@ -57,4 +63,3 @@ Path to download tracks. Default: `./.cache`.
 - [x] Basic cli with `clap`
 - [ ] Rich metadata (album, cover art, release date, track number, ...)
 - [ ] Parallel downloads
-

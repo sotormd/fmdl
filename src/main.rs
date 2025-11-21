@@ -120,13 +120,15 @@ fn sync(args: &Args) {
     }
 
     for (x, track) in diff.add.into_iter().enumerate() {
-        println!(
-            "[LIBRARY] {} / {}: {} - {}",
-            x + 1,
-            add_len,
-            track.name,
-            track.artist
-        );
+        if !args.shut_up {
+            println!(
+                "[LIBRARY] {} / {}: {} - {}",
+                x + 1,
+                add_len,
+                track.name,
+                track.artist
+            );
+        }
 
         let query = get_query(&track);
         let cache_file_path = cache_dir.join(track_filename(&track));
