@@ -9,7 +9,7 @@ use modules::library::{apply_metadata, get_diff, track_filename};
 use modules::youtube::{download, get_query};
 use std::env;
 use std::fs;
-use std::fs::rename;
+use std::fs::copy;
 use std::path::Path;
 
 /// Manage a local library based on LastFM top tracks.
@@ -145,7 +145,7 @@ fn sync(args: &Args) {
                     continue;
                 }
 
-                if let Err(e) = rename(&cache_file_path, &library_file_path) {
+                if let Err(e) = copy(&cache_file_path, &library_file_path) {
                     eprintln!(
                         "[LIBRARY] Failed to move \"{}\" to \"{}\": {}",
                         cache_file_path.display(),
@@ -165,6 +165,11 @@ fn sync(args: &Args) {
                 e
             ),
         }
+    }
+
+    if let Err(e) = fs::remove_dir_all(&cache_dir) {
+        eprintln!("[LIBRARY] Failed to delete cache directory");
+        return;
     }
 
     if !args.shut_up {
