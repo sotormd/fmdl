@@ -15,8 +15,8 @@ A LastFM API key is required. Create a LastFM API account
 
 # Usage
 
-```console
-$ nix run github:sotormd/fmdl
+```bash
+nix run github:sotormd/fmdl
 ```
 
 > Make sure you set the environment variables `LASTFM_API_KEY` and
@@ -34,6 +34,10 @@ Arguments:
 `-s / --sync`
 
 Sync local library with top tracks. Default behavior.
+
+`-m / --metadata`
+
+Apply rich metadata to tracks in library.
 
 `-d / --diff`
 
@@ -61,5 +65,5 @@ Path to download tracks. Default: `./.cache`.
 - [x] Show diff between local library and top tracks
 - [x] Basic metadata for saved `.mp3` files
 - [x] Basic cli with `clap`
-- [ ] Rich metadata (album, cover art, release date, track number, ...)
+- [x] Rich metadata (album, cover art, release date, track number, ...)
 - [ ] Parallel downloads

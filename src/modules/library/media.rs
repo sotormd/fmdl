@@ -16,7 +16,7 @@ pub fn apply_metadata(path: &Path, track: &Track) -> Result<(), String> {
 
     // Write tags back to file
     tag.write_to_path(path, Version::Id3v24)
-        .map_err(|e| format!("[METADATA] Failed to write ID3 tags: {}", e))?;
+        .map_err(|e| format!("[META] Failed to write ID3 tags: {}", e))?;
 
     Ok(())
 }

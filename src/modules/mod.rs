@@ -3,3 +3,4 @@
 pub mod lastfm;
 pub mod youtube;
 pub mod library;
+pub mod rich;
