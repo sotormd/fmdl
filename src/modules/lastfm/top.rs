@@ -34,7 +34,7 @@ pub fn get_top_tracks(username: &str, api_key: &str) -> Vec<Track> {
 
     for period in periods.iter() {
         let url = format!(
-            "http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user={}&api_key={}&format=json&period={}&limit=1",
+            "http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user={}&api_key={}&format=json&period={}&limit=200",
             username, api_key, period
         );
 

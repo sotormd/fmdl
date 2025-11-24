@@ -264,6 +264,15 @@ fn metadata(args: &Args) {
             }
         };
 
+        // Skip if album already exists
+        if basic.album.is_some() {
+            if !args.shut_up {
+                println!("[META] Skipping {} (already has album tag)", path.display());
+            }
+            continue;
+        }
+
+
         let artist = match &basic.artist {
             Some(a) => a,
             None => {

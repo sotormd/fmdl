@@ -6,6 +6,7 @@ use thiserror::Error;
 pub struct TrackInfo {
     pub artist: Option<String>,
     pub title: Option<String>,
+    pub album: Option<String>,
 }
 
 #[derive(Debug, Error)]
@@ -45,8 +46,9 @@ pub fn read_basic_metadata<P: AsRef<Path>>(path: P) -> Result<TrackInfo, ReadId3
     };
 
     // Extract artist and title safely
-    let artist = tag.artist().map(|s| s.to_owned());
-    let title = tag.title().map(|s| s.to_owned());
+    let artist = tag.artist().map(|s| s.to_string());
+    let title = tag.title().map(|s| s.to_string());
+    let album  = tag.album().map(|s| s.to_string());
 
-    Ok(TrackInfo { artist, title })
+    Ok(TrackInfo { artist, title, album })
 }
