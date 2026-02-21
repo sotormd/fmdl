@@ -2,28 +2,25 @@
 
 use std::path::Path;
 use std::process::Command;
-use thiserror::Error;
 
-#[derive(Debug, Error)]
+#[derive(Debug)]
 pub enum DlError {
-    #[error("[YT-DLP] failed to execute yt-dlp: {0}")]
-    CommandFailed(#[from] std::io::Error),
-
-    #[error("[YT-DLP] yt-dlp exited with status {0}")]
+    CommandFailed(std::io::Error),
     ExitFailure(std::process::ExitStatus),
-
-    #[error("[YT-DLP] invalid output path")]
     InvalidOutputPath,
 }
 
+/// download track from youtube using yt-dlp
 pub fn download(query: &str, output_path: &Path) -> Result<(), DlError> {
+    // android probably needs utf8 paths
     let output_str = match output_path.to_str() {
         Some(s) => s,
         None => return Err(DlError::InvalidOutputPath),
     };
 
     let mut cmd = Command::new("yt-dlp");
-    
+
+    // these args seem to work, no issues till now
     cmd.arg("--no-playlist")
         .arg("--extract-audio")
         .arg("--audio-format")

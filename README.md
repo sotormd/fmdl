@@ -15,8 +15,8 @@ A LastFM API key is required. Create a LastFM API account
 
 # Usage
 
-```console
-$ nix run github:sotormd/fmdl
+```bash
+nix run github:sotormd/fmdl
 ```
 
 > Make sure you set the environment variables `LASTFM_API_KEY` and
@@ -27,7 +27,9 @@ $ nix run github:sotormd/fmdl
 
 Run with additional arguments.
 
-`$ nix run github:sotormd/fmdl -- [ARGS]`
+```bash
+nix run github:sotormd/fmdl -- [ARGS]
+```
 
 Arguments:
 

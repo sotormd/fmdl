@@ -1,7 +1,9 @@
 // modules/library/diff.rs
 
+use crate::modules::model::Track;
+
 use super::track_filename;
-use crate::modules::lastfm::Track;
+
 use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};

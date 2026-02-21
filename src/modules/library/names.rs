@@ -1,6 +1,6 @@
 // modules/library/names.rs
 
-use crate::modules::lastfm::Track;
+use crate::modules::model::Track;
 
 fn sanitize_filename(s: &str) -> String {
     let forbidden = ['<', '>', ':', '"', '/', '\\', '|', '?', '*'];

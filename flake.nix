@@ -19,8 +19,8 @@
         "aarch64-linux"
       ];
 
-      ytDlpVersion = "2025.10.22";
-      ytDlpHash = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
+      ytDlpVersion = "2026.02.04";
+      ytDlpHash = "sha256-KXnz/ocHBftenDUkCiFoBRBxi6yWt0fNuRX+vKFWDQw=";
 
       # function to build yt-dlp for a given pkgs
       mkYtDlp =
@@ -96,6 +96,8 @@
 
           packages.default = naerskLib.buildPackage {
             src = ./.;
+            CARGO_BUILD_TYPE = "release";
+
             buildInputs =
               with pkgs;
               [
