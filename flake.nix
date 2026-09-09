@@ -19,8 +19,8 @@
         "aarch64-linux"
       ];
 
-      ytDlpVersion = "2026.02.04";
-      ytDlpHash = "sha256-KXnz/ocHBftenDUkCiFoBRBxi6yWt0fNuRX+vKFWDQw=";
+      ytDlpVersion = "2026.08.19";
+      ytDlpHash = "sha256-BM5ZeGTmHq+1xH6G/zsuCtjLgYgfRA11ya0zIHK5p4g=";
 
       # function to build yt-dlp for a given pkgs
       mkYtDlp =
